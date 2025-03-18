@@ -4,10 +4,10 @@ A full featured Ecommerce website built with Next.js, TypeScript, PostgreSQL and
 
 ### Technologies
 
-Next.js
-Typescript
-React
-Prisma
-Zod
-PostgreSQL
-and more
+- Next.js
+- Typescript
+- React
+- Prisma
+- Zod
+- PostgreSQL
+- and more
