@@ -5,6 +5,7 @@ import { signIn, signOut as authSignOut } from '@/auth';
 import { signInFormSchema, signUpFormSchema } from '../validator';
 import { hashSync } from 'bcrypt-ts-edge';
 import { prisma } from '@/db/prisma';
+import { formatError } from '../utils';
 
 export async function signInWithCredentials(
   prevState: unknown,
@@ -68,7 +69,7 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
 
     return {
       success: false,
-      message: 'Registration was not successful!',
+      message: formatError(error),
     };
   }
 }
