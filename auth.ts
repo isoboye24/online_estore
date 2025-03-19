@@ -51,13 +51,28 @@ export const config = {
     }),
   ],
   callbacks: {
-    async session({ session, user, trigger, token }: any) {
-      session.user.id = token.sub;
-      // If there is an update, set the name on the session
-      if (trigger === 'update') {
-        session.user.name = user.name;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async jwt({ token, user, trigger, session }: any) {
+      if (user) {
+        token.role = user.role;
+
+        if (user.name === 'NO_NAME') {
+          token.name = user.email!.split('@')[0];
+
+          await prisma.user.update({
+            where: { userId: user.id },
+            data: { name: token.name },
+          });
+        }
       }
-      return session;
+
+      console.log(token);
+
+      if (session?.user.name && trigger === 'update') {
+        token.name = session.user.name;
+      }
+
+      return token;
     },
   },
 } satisfies NextAuthConfig;
