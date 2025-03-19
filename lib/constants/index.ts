@@ -11,3 +11,10 @@ export const signInDefaultValues = {
   email: '',
   password: '',
 };
+
+export const signUpDefaultValues = {
+  name: 'Dan-Obu Isoboye Vincent',
+  email: 'isoboyedanobu@gmail.com',
+  password: '123',
+  confirmPassword: '123',
+};
