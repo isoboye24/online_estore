@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Product {
-  productId   String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String
   slug        String   @unique(map: "product_slug_idx")
   category    String
@@ -26,7 +26,7 @@ model Product {
 }
 
 model User {
-  userId        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String    @default("NO_NAME")
   email         String    @unique(map: "user_email_idx")
   password      String?
@@ -57,16 +57,16 @@ model Account {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "account_userId_user_id_fk")
+  uuser User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([provider, providerAccountId], map: "account_provider_providerAccountId_pk")
+  @@id([provider, providerAccountId])
 }
 
 model Session {
   sessionToken String   @id
   userId       String   @db.Uuid
   expires      DateTime @db.Timestamp(6)
-  user         User     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "session_userId_user_id_fk")
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
@@ -78,7 +78,7 @@ model VerificationToken {
 }
 
 model Cart {
-  cartId        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId        String?  @db.Uuid
   sessionCartId String
   items         Json[]   @default([]) @db.Json
@@ -87,5 +87,5 @@ model Cart {
   taxPrice      Decimal  @db.Decimal(12, 2)
   totalPrice    Decimal  @db.Decimal(12, 2)
   createdAt     DateTime @default(now()) @db.Timestamp(6)
-  user          User?    @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "cart_userId_user_id_fk")
+  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

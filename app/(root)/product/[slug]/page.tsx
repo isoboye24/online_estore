@@ -72,7 +72,7 @@ const ProductDetailsPage = async (props: {
                   <div className=" flex-center">
                     <AddToCart
                       item={{
-                        productId: product.productId,
+                        productId: product.id,
                         name: product.name,
                         slug: product.slug,
                         price: product.price,

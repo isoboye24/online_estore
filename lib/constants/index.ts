@@ -8,13 +8,13 @@ export const LATEST_PRODUCTS_LIMIT =
   Number(process.env.LATEST_PRODUCTS_LIMIT) || 4;
 
 export const signInDefaultValues = {
-  email: '',
-  password: '',
+  email: 'isoboyedanobu@gmail.com',
+  password: '123',
 };
 
 export const signUpDefaultValues = {
-  name: 'Dan-Obu Isoboye Vincent',
-  email: 'isoboyedanobu@gmail.com',
-  password: '123',
-  confirmPassword: '123',
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
 };

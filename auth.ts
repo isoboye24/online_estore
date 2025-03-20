@@ -39,7 +39,7 @@ export const config = {
 
           if (isMatch) {
             return {
-              id: user.userId,
+              id: user.id,
               name: user.name,
               email: user.email,
               role: user.role,
@@ -52,6 +52,7 @@ export const config = {
     }),
   ],
   callbacks: {
+    ...authConfig.callbacks,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async jwt({ token, user, trigger, session }: any) {
       if (user) {
@@ -61,7 +62,7 @@ export const config = {
           token.name = user.email!.split('@')[0];
 
           await prisma.user.update({
-            where: { userId: user.id },
+            where: { id: user.id },
             data: { name: token.name },
           });
         }
@@ -76,8 +77,4 @@ export const config = {
   },
 };
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
-  session: { strategy: 'jwt' },
-  ...authConfig,
-});
+export const { handlers, auth, signIn, signOut } = NextAuth(config);
