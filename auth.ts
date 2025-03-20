@@ -1,9 +1,10 @@
 import { compareSync } from 'bcrypt-ts-edge';
-import type { NextAuthConfig } from 'next-auth';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from '@/db/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+// import { cookies } from 'next/headers';
+import { authConfig } from './auth.config';
 
 export const config = {
   pages: {
@@ -11,7 +12,7 @@ export const config = {
     error: '/sign-in',
   },
   session: {
-    strategy: 'jwt',
+    strategy: 'jwt' as const,
     maxAge: 30 * 24 * 60 * 60,
   },
   adapter: PrismaAdapter(prisma),
@@ -66,8 +67,6 @@ export const config = {
         }
       }
 
-      console.log(token);
-
       if (session?.user.name && trigger === 'update') {
         token.name = session.user.name;
       }
@@ -75,6 +74,10 @@ export const config = {
       return token;
     },
   },
-} satisfies NextAuthConfig;
+};
 
-export const { handlers, auth, signIn, signOut } = NextAuth(config);
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: PrismaAdapter(prisma),
+  session: { strategy: 'jwt' },
+  ...authConfig,
+});
