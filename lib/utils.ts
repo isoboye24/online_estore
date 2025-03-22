@@ -1,6 +1,12 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+const CURRENCY_FORMATTER = new Intl.NumberFormat('en-US', {
+  currency: 'EUR',
+  style: 'currency',
+  minimumFractionDigits: 2,
+});
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -46,3 +52,14 @@ export const round2 = (value: number | string) => {
     throw new Error('value is not a number nor a string');
   }
 };
+
+// Format currency
+export function formatCurrency(amount: number | string | null) {
+  if (typeof amount === 'number') {
+    return CURRENCY_FORMATTER.format(amount);
+  } else if (typeof amount === 'string') {
+    return CURRENCY_FORMATTER.format(Number(amount));
+  } else {
+    return 'NaN';
+  }
+}

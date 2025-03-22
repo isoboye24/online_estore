@@ -2,14 +2,14 @@
 
 import { Cart } from '@/types';
 import { useTransition } from 'react';
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.actions';
-import { Loader, Minus, Plus } from 'lucide-react';
+import { ArrowRight, Loader, Minus, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-// import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -18,9 +18,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { formatCurrency } from '@/lib/utils';
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
-  //   const router = useRouter();
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   return (
@@ -107,6 +108,30 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
               </TableBody>
             </Table>
           </div>
+          <Card>
+            <CardContent className="p-4 gap-4">
+              <div className="pb-3 text-xl">
+                Subtotal ({cart.items.reduce((a, c) => a + c.qty, 0)}):
+                <span className="font-bold">
+                  {formatCurrency(cart.itemsPrice)}
+                </span>
+              </div>
+              <Button
+                onClick={() =>
+                  startTransition(() => router.push('/shipping-address'))
+                }
+                className="w-full"
+                disabled={isPending}
+              >
+                {isPending ? (
+                  <Loader className="animate-spin w-4 h-4" />
+                ) : (
+                  <ArrowRight className="w-4 h-4" />
+                )}
+                Proceed to Checkout
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       )}
     </>
