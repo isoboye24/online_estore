@@ -1,6 +1,6 @@
 import { getOrderById } from '@/lib/actions/order.actions';
 import { notFound } from 'next/navigation';
-// import { ShippingAddress } from '@/types';
+import { ShippingAddress } from '@/types';
 
 export const metadata = {
   title: 'Order Details',
