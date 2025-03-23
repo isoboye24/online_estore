@@ -1,11 +1,15 @@
 'use server';
 
-import { CartItem } from '@/types';
+import { CartItem, ShippingAddress } from '@/types';
 import { convertToPlainJSObject, formatError, round2 } from '../utils';
 import { cookies } from 'next/headers';
 import { auth } from '@/auth';
 import { prisma } from '@/db/prisma';
-import { cartItemSchema, insertCartSchema } from '../validator';
+import {
+  cartItemSchema,
+  insertCartSchema,
+  shippingAddressSchema,
+} from '../validator';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { Prisma } from '@prisma/client';
@@ -185,6 +189,33 @@ export async function removeItemFromCart(productId: string) {
           ? 'updated in'
           : 'removed from'
       } cart successfully`,
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+// Update user's address
+export async function updateUserAddress(data: ShippingAddress) {
+  try {
+    const session = await auth();
+
+    const currentUser = await prisma.user.findFirst({
+      where: { id: session?.user?.id },
+    });
+
+    if (!currentUser) throw new Error('User not found');
+
+    const address = shippingAddressSchema.parse(data);
+
+    await prisma.user.update({
+      where: { id: currentUser.id },
+      data: { address },
+    });
+
+    return {
+      success: true,
+      message: 'User updated successfully',
     };
   } catch (error) {
     return { success: false, message: formatError(error) };
