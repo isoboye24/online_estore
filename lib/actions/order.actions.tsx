@@ -5,7 +5,6 @@ import { formatError } from '../utils';
 import { auth } from '@/auth';
 import { getMyCart } from './cart.actions';
 import { getUserById } from './user.actions';
-import { redirect } from 'next/navigation';
 import { insertOrderSchema } from '../validator';
 import { prisma } from '@/db/prisma';
 import { CartItem } from '@/types';
