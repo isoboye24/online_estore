@@ -120,22 +120,24 @@ export async function getMyCart() {
   const session = await auth();
   console.log('Session Object:', session);
   const userId = session?.user?.id ? (session.user.id as string) : undefined;
+  console.log('User ID From session', userId);
 
   const cart = await prisma.cart.findFirst({
     where: userId ? { userId: userId } : { sessionCartId: sessionCartId },
   });
+
   if (!cart) {
     return undefined;
+  } else {
+    return convertToPlainJSObject({
+      ...cart,
+      items: cart.items as CartItem[],
+      itemsPrice: cart.itemsPrice.toString(),
+      totalPrice: cart.totalPrice.toString(),
+      shippingPrice: cart.shippingPrice.toString(),
+      taxPrice: cart.taxPrice.toString(),
+    });
   }
-
-  return convertToPlainJSObject({
-    ...cart,
-    items: cart.items as CartItem[],
-    itemsPrice: cart.itemsPrice.toString(),
-    totalPrice: cart.totalPrice.toString(),
-    shippingPrice: cart.shippingPrice.toString(),
-    taxPrice: cart.taxPrice.toString(),
-  });
 }
 
 export async function removeItemFromCart(productId: string) {
