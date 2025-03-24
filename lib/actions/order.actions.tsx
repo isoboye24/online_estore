@@ -11,6 +11,7 @@ import { CartItem, PaymentResult } from '@/types';
 import { revalidatePath } from 'next/cache';
 import { paypal } from '../paypal';
 import { PAGE_SIZE } from '../constants';
+import { Prisma } from '@prisma/client';
 
 // Create an order
 export async function createOrder() {
@@ -272,4 +273,47 @@ async function updateOrderToPaid({
   if (!updatedOrder) {
     throw new Error('Order not found');
   }
+}
+
+// Get sales data and order summary
+type SalesDataType = {
+  month: string;
+  totalSales: number;
+}[];
+
+export async function getOrderSummary() {
+  const ordersCount = await prisma.order.count();
+  const productsCount = await prisma.product.count();
+  const usersCount = await prisma.user.count();
+
+  const totalSales = await prisma.order.aggregate({
+    _sum: { totalPrice: true },
+  });
+
+  // Get monthly sales
+  const salesDataRaw = await prisma.$queryRaw<
+    Array<{ month: string; totalSales: Prisma.Decimal }>
+  >`SELECT to_char("createdAt", 'MM/YY') as "month", sum("totalPrice") as "totalSales" FROM "Order" GROUP BY to_char("createdAt", 'MM/YY')`;
+
+  const salesData: SalesDataType = salesDataRaw.map((entry) => ({
+    month: entry.month,
+    totalSales: Number(entry.totalSales),
+  }));
+
+  const latestOrders = await prisma.order.findMany({
+    orderBy: { createdAt: 'desc' },
+    include: {
+      user: { select: { name: true } },
+    },
+    take: 6,
+  });
+
+  return {
+    ordersCount,
+    productsCount,
+    usersCount,
+    totalSales,
+    latestOrders,
+    salesData,
+  };
 }
