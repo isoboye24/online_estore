@@ -38,7 +38,7 @@ const OrdersPage = async (props: {
     <div className="space-y-2">
       <h2 className="h2-bold">Orders</h2>
       <div className="overflow-x-auto">
-        <Table>
+        <Table className="mb-4">
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
