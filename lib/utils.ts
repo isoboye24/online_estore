@@ -54,7 +54,6 @@ export const round2 = (value: number | string) => {
   }
 };
 
-// Format currency
 export function formatCurrency(amount: number | string | null) {
   if (typeof amount === 'number') {
     return CURRENCY_FORMATTER.format(amount);
@@ -70,7 +69,6 @@ export function formatId(id: string) {
   return `..${id.substring(id.length - 6)}`;
 }
 
-// Format data and time
 export const formatDateTime = (dateString: Date) => {
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
     month: 'short', // abbreviated month name (e.g., 'Oct')
