@@ -24,20 +24,48 @@ import {
 } from '@/components/ui/select';
 import { ControllerRenderProps } from 'react-hook-form';
 import { USER_ROLES } from '@/lib/constants';
+import { updateUser } from '@/lib/actions/user.actions';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const UpdateUserForm = ({
   user,
 }: {
   user: z.infer<typeof updateUserSchema>;
 }) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof updateUserSchema>>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: user,
   });
 
+  // Handle submit
+  const onSubmit = async (values: z.infer<typeof updateUserSchema>) => {
+    try {
+      const res = await updateUser({
+        ...values,
+        id: user.id,
+      });
+
+      if (!res.success) {
+        return toast.error(res.message);
+      }
+
+      form.reset();
+      router.push(`/admin/users`);
+    } catch (error) {
+      return error;
+    }
+  };
+
   return (
     <Form {...form}>
-      <form className="space-y-4">
+      <form
+        className="space-y-4"
+        method="POST"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         {/* Email */}
         <div>
           <FormField
