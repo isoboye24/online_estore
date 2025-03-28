@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
-import { getAllUsers } from '@/lib/actions/user.actions';
+import { getAllUsers, deleteUser } from '@/lib/actions/user.actions';
 import { requireAdmin } from '@/lib/auth-guard';
 // import { auth } from '@/auth';
-// import DeleteDialog from '@/components/ui/shared/delete-dialog';
+import DeleteDialog from '@/components/ui/shared/delete-dialog';
 import Pagination from '@/components/ui/shared/pagination';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/table';
 import { formatId } from '@/lib/utils';
 import Link from 'next/link';
-import { Badge } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Admin Users',
@@ -63,7 +62,7 @@ const AdminUserPage = async (props: {
                   <Button asChild variant="outline" size="sm">
                     <Link href={`/admin/users/${user.id}`}>Edit</Link>
                   </Button>
-                  {/* DELETE DIALOG HERE */}
+                  <DeleteDialog id={user.id} action={deleteUser} />
                 </TableCell>
               </TableRow>
             ))}
