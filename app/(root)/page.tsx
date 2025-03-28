@@ -1,12 +1,20 @@
-import { getLatestProducts } from '@/lib/actions/product.actions';
+import {
+  getLatestProducts,
+  getFeaturedProducts,
+} from '@/lib/actions/product.actions';
 import { ProductList } from '@/components/ui/shared/product';
+import { ProductCarousel } from '@/components/ui/shared/product/product-carousel';
 
 const Homepage = async () => {
   const latestProducts = await getLatestProducts();
+  const featuredProducts = await getFeaturedProducts();
 
   return (
     <>
-      <ProductList data={latestProducts} title="Newest Arrivals" />
+      {featuredProducts.length > 0 && (
+        <ProductCarousel data={featuredProducts} />
+      )}
+      <ProductList title="Newest Arrivals" data={latestProducts} />
     </>
   );
 };
