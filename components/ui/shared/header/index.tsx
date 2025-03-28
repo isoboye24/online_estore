@@ -3,13 +3,15 @@ import Menu from './menu';
 import Image from 'next/image';
 import Link from 'next/link';
 import { APP_NAME } from '../../../../lib/constants';
+import CategoriesDrawer from './categories-drawer';
 
 const Header = () => {
   return (
     <header className="w-full border-b">
       <div className="wrapper flex-between">
         <div className="flex-start">
-          <Link href="/" className="flex-start">
+          <CategoriesDrawer />
+          <Link href="/" className="ml-2 flex-start">
             <Image
               priority={true}
               src="/images/logo.svg"
