@@ -26,21 +26,43 @@ const SearchPage = async (props: {
     page = '1',
   } = await props.searchParams;
 
-  console.log(q, category, price, rating, sort, page);
-
-  // Get products
   const products = await getAllProducts({
-    category,
     query: q,
+    category,
     price,
     rating,
-    page: Number(page),
     sort,
+    page: Number(page),
   });
+
+  // Construct filter url
+  const getFilterUrl = ({
+    c,
+    p,
+    r,
+    s,
+    pg,
+  }: {
+    c?: string;
+    p?: string;
+    r?: string;
+    s?: string;
+    pg?: string;
+  }) => {
+    const params = { q, category, price, rating, sort, page };
+    if (c) params.category = c;
+    if (p) params.price = p;
+    if (r) params.rating = r;
+    if (s) params.sort = s;
+    if (pg) params.page = pg;
+    return `/search?${new URLSearchParams(params).toString()}`;
+  };
 
   return (
     <div className="grid md:grid-cols-5 md:gap-5">
-      <div className="filter-links">{/* FILTERS */}</div>
+      <div className="filter-links">
+        {/* FILTERS */} URL: {getFilterUrl({ c: "Men's Dress Shirts" })}
+      </div>
       <div className="md:col-span-4 space-y-4">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {products!.data.length === 0 && <div>No product found</div>}
