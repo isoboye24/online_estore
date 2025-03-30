@@ -59,3 +59,6 @@ export const reviewFormDefaultValues = {
   comment: '',
   rating: 0,
 };
+
+export const SENDER_EMAIL =
+  process.env.SENDER_EMAIL || 'isoboyedanobu@gmail.com';
