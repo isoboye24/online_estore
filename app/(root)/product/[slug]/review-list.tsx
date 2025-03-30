@@ -9,9 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Calendar, Check, User } from 'lucide-react';
+import { Calendar, User } from 'lucide-react';
 import { formatDateTime } from '@/lib/utils';
-// import { toast } from 'sonner';
 import Link from 'next/link';
 import ReviewForm from './review-form';
 import { getReviews } from '@/lib/actions/review.actions';
@@ -38,8 +37,10 @@ const ReviewList = ({
     loadReviews();
   }, [productId]);
 
+  // Reload reviews when a review is submitted
   const reload = async () => {
-    console.log('review submitted');
+    const res = await getReviews({ productId });
+    setReviews([...res.data]);
   };
 
   return (
