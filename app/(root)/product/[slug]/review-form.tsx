@@ -29,7 +29,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-// import { toast } from 'sonner';
 // import {
 //   createUpdateReview,
 //   getReviewByProductId,
@@ -38,16 +37,19 @@ import { reviewFormDefaultValues } from '@/lib/constants';
 import { insertReviewSchema } from '@/lib/validator';
 import { z } from 'zod';
 import { StarIcon } from 'lucide-react';
+import { createUpdateReview } from '@/lib/actions/review.actions';
+import { toast } from 'sonner';
 
 type CustomerReview = z.infer<typeof insertReviewSchema>;
 
-const ReviewForm = ({}: //   userId,
-//   productId,
-//   onReviewSubmitted,
-{
+const ReviewForm = ({
+  userId,
+  productId,
+  onReviewSubmitted,
+}: {
   userId: string;
   productId: string;
-  onReviewSubmitted?: () => void;
+  onReviewSubmitted: () => void;
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -57,7 +59,23 @@ const ReviewForm = ({}: //   userId,
   });
 
   const handleOpenForm = () => {
+    form.setValue('productId', productId);
+    form.setValue('userId', userId);
+
     setOpen(true);
+  };
+
+  // Form submit handler
+  const onSubmit: SubmitHandler<CustomerReview> = async (values) => {
+    const res = await createUpdateReview({ ...values, productId });
+
+    if (!res.success) return toast.error(res.message);
+
+    setOpen(false);
+
+    onReviewSubmitted();
+
+    toast.success(res.message);
   };
 
   return (
@@ -67,7 +85,7 @@ const ReviewForm = ({}: //   userId,
       </Button>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
-          <form method="post">
+          <form method="post" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
               <DialogTitle>Write a review</DialogTitle>
               <DialogDescription>

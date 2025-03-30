@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { Review } from '@/types';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Calendar, Check, User } from 'lucide-react';
-import { formatDateTime } from '@/lib/utils';
-import { toast } from 'sonner';
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardHeader,
+//   CardTitle,
+// } from '@/components/ui/card';
+// import { Calendar, Check, User } from 'lucide-react';
+// import { formatDateTime } from '@/lib/utils';
+// import { toast } from 'sonner';
 import Link from 'next/link';
 import ReviewForm from './review-form';
 
@@ -26,12 +26,20 @@ const ReviewList = ({
 }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
 
+  const reload = async () => {
+    console.log('review submitted');
+  };
+
   return (
     <div className="space-y-4">
       {reviews.length === 0 && <div>No reviews yet</div>}
       {userId ? (
         <>
-          <ReviewForm userId={userId} productId={productId} />
+          <ReviewForm
+            userId={userId}
+            productId={productId}
+            onReviewSubmitted={reload}
+          />
         </>
       ) : (
         <div>
