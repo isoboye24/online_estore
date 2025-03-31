@@ -10,6 +10,7 @@ import { Prisma } from '@prisma/client';
 // Get the latest products
 export async function getLatestProducts() {
   const data = await prisma.product.findMany({
+    where: { stock: { gt: 0 } },
     take: LATEST_PRODUCTS_LIMIT,
     orderBy: { createdAt: 'desc' },
   });
@@ -81,10 +82,10 @@ export async function getAllProducts({
       sort === 'lowest'
         ? { price: 'asc' }
         : sort === 'highest'
-        ? { price: 'desc' }
-        : sort === 'rating'
-        ? { rating: 'desc' }
-        : { createdAt: 'desc' },
+          ? { price: 'desc' }
+          : sort === 'rating'
+            ? { rating: 'desc' }
+            : { createdAt: 'desc' },
     skip: (page - 1) * limit,
     take: limit,
   });
@@ -186,6 +187,15 @@ export async function getFeaturedProducts() {
     where: { isFeatured: true },
     orderBy: { createdAt: 'desc' },
     take: 4,
+  });
+
+  return convertToPlainJSObject(data);
+}
+
+// Get single product out of stock product
+export async function getOutOfStockProduct() {
+  const data = await prisma.product.findMany({
+    where: { stock: { lt: 1 } },
   });
 
   return convertToPlainJSObject(data);
