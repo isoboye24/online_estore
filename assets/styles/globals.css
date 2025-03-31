@@ -223,3 +223,7 @@
 .upload-field .text-white {
   color: #000 !important;
 }
+
+.footer-bg {
+  background-color: oklch(0.129 0.042 264.695) !important;
+}
