@@ -101,7 +101,7 @@ const DealCountdown = () => {
           <StatBox label="Minutes" value={time.minutes} />
           <StatBox label="Seconds" value={time.seconds} />
         </ul>
-        <div className="text-center">
+        <div className="text-center mb-2">
           <Button asChild>
             <Link href="/search">View Products</Link>
           </Button>
