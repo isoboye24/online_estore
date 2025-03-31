@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-const TARGET_DATE = new Date('2024-12-20T00:00:00');
+const TARGET_DATE = new Date('2025-04-07T00:00:00');
 
 const calculateTimeRemaining = (targetDate: Date) => {
   const currentTime = new Date();
@@ -109,7 +109,7 @@ const DealCountdown = () => {
       </div>
       <div className="flex justify-center">
         <Image
-          src="/images/promo.jpg"
+          src="/images/sample-products/p2-1.jpg"
           alt="promotion"
           width={300}
           height={200}
