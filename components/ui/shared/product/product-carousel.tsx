@@ -38,10 +38,10 @@ export function ProductCarousel({ data }: { data: Product[] }) {
                   width="0"
                   height="0"
                   sizes="100vw"
-                  className="w-full h-auto"
+                  className="w-full h-[150px] sm:h-[300px] md:h-[400px] lg:h-[450px]"
                 />
                 <div className="absolute inset-0 flex items-end justify-center">
-                  <h2 className=" bg-gray-900 bg-opacity-50 text-2xl font-bold px-2 text-white  ">
+                  <h2 className=" bg-gray-900 bg-opacity-0 sm:[text-0.5x1] font-bold px-2 text-white-900  ">
                     {product.name}
                   </h2>
                 </div>
