@@ -62,10 +62,14 @@ const Footer = () => {
             {currentYear} {APP_NAME}. All Rights reserved.
           </div>
           <div className="text-center">
-            <span className="mr-1 text-gray-500 text-sm">Developed by: </span>
-            <span className="text-sm underline">
-              <a className="text-indigo-500" href="https://doiv.vercel.app/">
-                Dan-Obu Isoboye Vincent
+            <span className="text-base underline">
+              <a
+                className="text-indigo-300 no-underline"
+                href="https://doiv.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Developer{"'"}s Contact
               </a>
             </span>
           </div>
