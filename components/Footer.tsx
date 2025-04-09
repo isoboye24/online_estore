@@ -64,10 +64,7 @@ const Footer = () => {
           <div className="text-center">
             <span className="mr-1 text-gray-500 text-sm">Developed by: </span>
             <span className="text-sm underline">
-              <a
-                className="text-indigo-500"
-                href="https://www.xing.com/profile/IsoboyeVincent_DanObu/web_profiles?sc_o=navigation_profile_icon&sc_o_PropActionOrigin=navigation_neffi_100&expandNeffi=true"
-              >
+              <a className="text-indigo-500" href="https://doiv.vercel.app/">
                 Dan-Obu Isoboye Vincent
               </a>
             </span>
