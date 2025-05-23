@@ -65,7 +65,7 @@ const Footer = () => {
             <span className="text-base underline">
               <a
                 className="text-indigo-300 no-underline"
-                href="https://doiv.vercel.app/"
+                href="https://div-mu.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
